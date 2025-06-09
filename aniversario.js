@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Aniversário!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* bg-gray-900 */
+        }
+        .code-editor-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .flicker {
+            animation: flicker 1s infinite;
+        }
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #birthdayMessage {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        #birthdayMessage.visible {
+            opacity: 1;
+        }
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+        .animate-shake {
+            animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        #image-modal {
+            z-index: 200;
+        }
+        /* Animação de giro para o Easter Egg */
+        @keyframes spin {
+            from { transform: rotate(0deg) scale(0.5); opacity: 0; }
+            to { transform: rotate(360deg) scale(1); opacity: 1; }
+        }
+        .spin-animation {
+            animation: spin 0.7s ease-out;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen text-white p-4">
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div id="container" class="w-full max-w-2xl mx-auto">
+        
+        <!-- Code Editor View -->
+        <div id="code-view">
+            <h1 class="text-3xl md:text-4xl font-bold text-center mb-2">Ops, um bug...</h1>
+            <p class="text-center text-gray-400 mb-4">Seu cartão de aniversário precisa ser debugado. Consegue consertar? <br class="hidden sm:block">Pelo menos é JavaScript e não excel.</p>
+            
+            <p id="difficulty-label" class="mb-2 text-center font-semibold"></p>
+
+            <div class="bg-gray-800 rounded-lg shadow-2xl overflow-hidden">
+                <div class="bg-gray-700 p-3 flex items-center">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                    </div>
+                    <span class="ml-4 text-gray-300 text-sm">AniversarioLuciano.js</span>
+                </div>
+                <div id="code-editor" class="p-4 code-editor-font text-sm md:text-base text-gray-300" contenteditable="true" spellcheck="false">
+<pre><code class="language-javascript" id="code-content-wrapper"></code></pre>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <button id="run-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                    Executar Código
+                </button>
+                <p id="error-message" class="text-red-400 mt-3 h-5"></p>
+            </div>
+        </div>
+
+        <!-- Birthday Message View (Hidden by default) -->
+        <div id="birthdayMessage" class="hidden text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-yellow-300 flicker mb-4">Compilado com Sucesso!</h1>
+            <div class="bg-gray-800 p-6 md:p-8 rounded-lg shadow-2xl fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Feliz Aniversário, Luciano!</h2>
+                <div class="text-base md:text-lg text-gray-300 leading-relaxed text-left">
+                    <p class="mb-4">Eae, cara? No fim das contas, você conseguiu resolver esse bug.</p>
+                    <p class="mb-4">Os erros que acontecem em nossa jornada não são o fim da estrada, como parecem, mas sim soluções que nos tornam cada dia melhor e mais evoluídos.</p>
+                    <p class="mb-4">Parabéns por ser essa pessoa incrível, mais do que um supervisor, um verdadeiro amigo que quero levar pra vida toda. Eu jamais pensei que trabalharia em um ambiente tão positivo e inspirador como este. Sempre que tenho uma conquista e você diz que admira e reconhece, isso me motiva ainda mais a buscar novos desafios e a me superar.</p>
+                    <p class="mb-4">Sua pessoa me inspira, mas sua amizade faz toda a diferença. Sou imensamente grato por cada ensinamento, por cada oportunidade de aprender e crescer ao seu lado. Que este novo ciclo seja repleto de ainda mais sucesso, realizações, saúde e muita alegria, você merece tudo do melhor. Continue sempre sendo quem você realmente é. Obrigado por tantos momentos de risadas. Espero que um dia possamos estar reunidos para criação de um grande projeto, ah claro, sem Excel (PONTO IMPORTANTE) KKKKKKK</p>
+                    <p class="mb-4">Dizem que os teimosos mudam o mundo, e eu sou o maior deles, mas quem realmente muda o mundo, são os criativos, e você sempre será o maior deles.</p>
+                    <p class="font-bold text-center mt-6">Feliz aniversário, aproveita muito o seu dia, te amo mano!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Easter Egg Image Modal -->
+    <div id="image-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4">
+        <div id="modal-content" class="relative bg-gray-800 p-2 rounded-lg shadow-2xl">
+            <img src="https://i.imgur.com/pyNQfvE.jpeg" alt="Easter Egg" class="max-w-full max-h-[80vh] rounded">
+            <button id="close-modal-button" class="absolute -top-2 -right-2 bg-white text-black rounded-full h-8 w-8 flex items-center justify-center font-bold text-lg">&times;</button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- SCRIPT DE CONFIGURAÇÃO DO DESAFIO E FUNCIONALIDADE ---
+        const codeView = document.getElementById('code-view');
+        const runButton = document.getElementById('run-button');
+        const codeEditor = document.getElementById('code-editor');
+        const birthdayMessage = document.getElementById('birthdayMessage');
+        const errorMessage = document.getElementById('error-message');
+        const codeContentWrapper = document.getElementById('code-content-wrapper');
+        const difficultyLabel = document.getElementById('difficulty-label');
+        const imageModal = document.getElementById('image-modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeModalButton = document.getElementById('close-modal-button');
+
+        let selectedBug;
+
+        // --- DEFINIÇÃO DOS BUGS COM CORES E DICAS SUTIS ---
+        const bugs = [
+            // Nível Fácil
+            { level: 'easy', code: `<span class="text-purple-400">function</span> <span class="text-yellow-300">gerarMensagem</span>() {\n  <span class="text-blue-400">const</span> msg = <span class="text-green-400">"Feliz Aniversário!"</span>;\n\n  <span class="text-gray-500">// Dica: Algo parece estranho na chamada do console.</span>\n\n  consele.log(msg);\n}\n\n<span class="text-yellow-300">gerarMensagem</span>();`, solution: ['console.log(msg)'] },
+            { level: 'easy', code: `<span class="text-purple-400">function</span> <span class="text-yellow-300">gerarMensagem</span>() {\n  <span class="text-gray-500">// Dica: Uma string parece não ter sido finalizada corretamente.</span>\n\n  <span class="text-blue-400">const</span> msg = <span class="text-green-400">"Feliz Aniversário!;</span>\n  console.log(msg);\n}\n\n<span class="text-yellow-300">gerarMensagem</span>();`, solution: ['"FelizAniversário!"'] },
+            // Nível Médio
+            { level: 'medium', code: `<span class="text-purple-400">function</span> <span class="text-yellow-300">gerarMensagem</span>() {\n  <span class="text-blue-400">const</span> mensagemDeAniversario = <span class="text-green-400">"Feliz Aniversário!"</span>;\n\n  <span class="text-gray-500">// Dica: Nomes parecem não corresponder às suas declarações.</span>\n\n  console.log(mensagemDeAniverssario);\n}\n\n<span class="text-yellow-300">Mensagem</span>();`, solution: ['console.log(mensagemDeAniversario)', 'gerarMensagem()'] },
+            { level: 'medium', code: `<span class="text-purple-400">function</span> <span class="text-yellow-300">gerarMensagem</span>(texto) {\n  console.log(texto);\n}\n\n<span class="text-gray-500">// Dica: Uma função parece não estar recebendo o que espera.</span>\n\n<span class="text-yellow-300">gerarMensagem</span>();`, solution: ['gerarMensagem("FelizAniversário!")'] },
+            // Nível Difícil (Novos desafios)
+            { 
+                level: 'hard', 
+                code: `<span class="text-purple-400">function</span> <span class="text-yellow-300">gerarMensagem</span>() {\n  <span class="text-blue-400">const</span> condicao = <span class="text-blue-400">true</span>;\n  <span class="text-purple-400">if</span> (condicao) {\n    <span class="text-blue-400">let</span> mensagem = <span class="text-green-400">"Feliz Aniversário!"</span>;\n  }\n\n  <span class="text-gray-500">// Dica: A "mensagem" existe, mas onde ela pode ser acessada?</span>\n\n  console.log(mensagem);\n}\n\n<span class="text-yellow-300">gerarMensagem</span>();`, 
+                solution: ['letmensagem;', 'if(condicao){mensagem=']
+            },
+            { 
+                level: 'hard', 
+                code: `<span class="text-purple-400">function</span> <span class="text-yellow-300">gerarMensagem</span>() {\n  <span class="text-blue-400">const</span> partes = [<span class="text-green-400">"Feliz"</span>, <span class="text-green-400">"Aniversário"</span>, <span class="text-green-400">"!"</span>];\n\n  <span class="text-gray-500">// Dica: A montagem da frase parece pular uma parte importante.</span>\n\n  <span class="text-blue-400">const</span> msg = partes[<span class="text-red-400">0</span>] + <span class="text-green-400">" "</span> + partes[<span class="text-red-400">2</span>];\n\n  console.log(msg);\n}\n\n<span class="text-yellow-300">gerarMensagem</span>();`, 
+                solution: ['partes[0]+" "+partes[1]+" "+partes[2]']
+            }
+        ];
+
+        // --- LÓGICA DO JOGO ---
+        function setupChallenge() {
+            const rand = Math.random();
+            let bugPool;
+            if (rand < 0.50) { bugPool = bugs.filter(b => b.level === 'easy'); } 
+            else if (rand < 0.85) { bugPool = bugs.filter(b => b.level === 'medium'); } 
+            else { bugPool = bugs.filter(b => b.level === 'hard'); }
+            selectedBug = bugPool[Math.floor(Math.random() * bugPool.length)];
+            codeContentWrapper.innerHTML = selectedBug.code;
+            let labelText = '', labelColor = '';
+            switch (selectedBug.level) {
+                case 'easy': labelText = 'Nível: Fácil'; labelColor = 'text-green-400'; break;
+                case 'medium': labelText = 'Nível: Médio'; labelColor = 'text-yellow-400'; break;
+                case 'hard': labelText = 'Nível: Difícil'; labelColor = 'text-red-400'; break;
+            }
+            difficultyLabel.textContent = labelText;
+            difficultyLabel.className = `mb-2 text-center font-semibold ${labelColor}`;
+        }
+
+        runButton.addEventListener('click', () => {
+            const userCode = codeEditor.textContent || codeEditor.innerText;
+            const normalizedUserCode = userCode.replace(/\s/g, '').toLowerCase();
+            let allSolutionsFound = true;
+            for (const sol of selectedBug.solution) {
+                const normalizedSol = sol.replace(/\s/g, '').toLowerCase();
+                if (!normalizedUserCode.includes(normalizedSol)) { allSolutionsFound = false; break; }
+            }
+            if (allSolutionsFound) {
+                codeView.style.transition = 'opacity 0.5s ease-out';
+                codeView.style.opacity = '0';
+                setTimeout(() => {
+                    codeView.classList.add('hidden');
+                    birthdayMessage.classList.remove('hidden');
+                    birthdayMessage.classList.add('visible');
+                    startConfetti();
+                }, 500);
+            } else {
+                errorMessage.textContent = 'Erro de sintaxe. Tente novamente!';
+                codeEditor.parentElement.classList.add('animate-shake');
+                setTimeout(() => { errorMessage.textContent = ''; codeEditor.parentElement.classList.remove('animate-shake'); }, 2000);
+            }
+        });
+
+        // --- LÓGICA DO CONFETTI ---
+        const confettiCanvas = document.getElementById('confetti-canvas');
+        const ctx = confettiCanvas.getContext('2d');
+        let confettiParticles = [];
+        function startConfetti() {
+            if (!confettiCanvas) return;
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+            for (let i = 0; i < 200; i++) { confettiParticles.push(new ConfettiParticle()); }
+            animateConfetti();
+        }
+        function ConfettiParticle() {
+            this.x = Math.random() * confettiCanvas.width;
+            this.y = Math.random() * confettiCanvas.height - confettiCanvas.height;
+            this.size = Math.random() * 10 + 5;
+            this.speed = Math.random() * 5 + 2;
+            this.gravity = 0.5;
+            this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+            this.rotation = Math.random() * 360;
+            this.rotationSpeed = Math.random() * 10 - 5;
+        }
+        function animateConfetti() {
+            if (!confettiCanvas) return;
+            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            confettiParticles.forEach((p, index) => {
+                p.y += p.speed;
+                p.speed += p.gravity / 10;
+                p.x += Math.sin(p.y / 50) * 2;
+                p.rotation += p.rotationSpeed;
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                ctx.restore();
+                if (p.y > confettiCanvas.height) { confettiParticles.splice(index, 1); }
+            });
+            if (confettiParticles.length > 0) { requestAnimationFrame(animateConfetti); }
+        }
+        window.addEventListener('resize', () => { if (!confettiCanvas) return; confettiCanvas.width = window.innerWidth; confettiCanvas.height = window.innerHeight; });
+        
+        // --- EASTER EGG ---
+        const easterEggSequence = ['l', 'u', 'c', 'i', 'a', 'n', 'o'];
+        let sequenceIndex = 0;
+        document.addEventListener('keydown', (e) => {
+            if (e.target.isContentEditable) return;
+            if (e.key.toLowerCase() === easterEggSequence[sequenceIndex]) {
+                sequenceIndex++;
+                if (sequenceIndex === easterEggSequence.length) {
+                    modalContent.classList.add('spin-animation');
+                    imageModal.classList.remove('hidden');
+                    sequenceIndex = 0; 
+                }
+            } else {
+                sequenceIndex = 0;
+            }
+        });
+        
+        // --- MODAL CONTROLS ---
+        function hideModal() {
+            imageModal.classList.add('hidden');
+            modalContent.classList.remove('spin-animation'); // Remove a animação para que ela possa ser reativada
+        }
+        closeModalButton.addEventListener('click', hideModal);
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                hideModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', setupChallenge);
+    </script>
+</body>
+</html>
